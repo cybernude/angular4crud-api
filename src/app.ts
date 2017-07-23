@@ -14,6 +14,7 @@ import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 
 import index from './routes/index';
+import husbandRoute from './routes/husband';
 
 const app: express.Express = express();
 
@@ -39,19 +40,28 @@ let connection: MySqlConnectionConfig = {
   multipleStatements: true
 }
 
-let db = Knex({
-  client: 'mysql',
-  connection: connection,
-  pool: { min: 0, max: 10 }
-});
-
 app.use((req, res, next) => {
-  req.db = db;
+  req.db = Knex({
+    client: 'mysql',
+    connection: connection,
+    pool: {
+      min: 0,
+      max: 7,
+      afterCreate: (conn, done) => {
+        conn.query('SET NAMES utf8', (err) => {
+          done(err, conn);
+        });
+      }
+    },
+    debug: true,
+    acquireConnectionTimeout: 5000
+  });
+
   next();
 });
 
-
 app.use('/',index);
+app.use('/husband-api',husbandRoute);
 
 //catch 404 and forward to error handler
 app.use((req,res,next) => {

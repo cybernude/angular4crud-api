@@ -9,6 +9,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const index_1 = require("./routes/index");
+const husband_1 = require("./routes/husband");
 const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -26,16 +27,26 @@ let connection = {
     password: process.env.DB_PASSWORD,
     multipleStatements: true
 };
-let db = Knex({
-    client: 'mysql',
-    connection: connection,
-    pool: { min: 0, max: 10 }
-});
 app.use((req, res, next) => {
-    req.db = db;
+    req.db = Knex({
+        client: 'mysql',
+        connection: connection,
+        pool: {
+            min: 0,
+            max: 7,
+            afterCreate: (conn, done) => {
+                conn.query('SET NAMES utf8', (err) => {
+                    done(err, conn);
+                });
+            }
+        },
+        debug: true,
+        acquireConnectionTimeout: 5000
+    });
     next();
 });
 app.use('/', index_1.default);
+app.use('/husband-api', husband_1.default);
 app.use((req, res, next) => {
     var err = new Error('Not Found');
     err['status'] = 404;
