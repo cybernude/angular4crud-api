@@ -18,5 +18,19 @@ router.get('/', (req, res, next) => {
         db.destroy();
     });
 });
+router.get('/raw', (req, res, next) => {
+    console.log("into route");
+    let db = req.db;
+    husbanModel.list(db)
+        .then((results) => {
+        res.send({ ok: true, rows: results[0] });
+    })
+        .catch(error => {
+        res.send({ ok: false, error: error });
+    })
+        .finally(() => {
+        db.destroy();
+    });
+});
 exports.default = router;
 //# sourceMappingURL=husband.js.map

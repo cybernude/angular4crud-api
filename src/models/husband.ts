@@ -8,6 +8,15 @@ export class HusbandModel {
             .orderBy('husband_id', 'ASC');
     }
 
+  listRaw(knex: Knex) {
+    let sql = ` 
+        select * from husband order by husband_id asc
+       `;
+    return knex.raw(sql);
+  }
+
 }
+
+
 
 // exports.HusbandModel = HusbandModel;

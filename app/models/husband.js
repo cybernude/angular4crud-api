@@ -5,6 +5,12 @@ class HusbandModel {
         return knex('husband')
             .orderBy('husband_id', 'ASC');
     }
+    listRaw(knex) {
+        let sql = ` 
+        select * from husband order by husband_id asc
+       `;
+        return knex.raw(sql);
+    }
 }
 exports.HusbandModel = HusbandModel;
 //# sourceMappingURL=husband.js.map

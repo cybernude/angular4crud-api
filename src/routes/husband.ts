@@ -24,4 +24,20 @@ console.log("into route");
     });
 });
 
+
+router.get('/raw', (req, res, next) => {
+console.log("into route");
+  let db = req.db;
+
+  husbanModel.list(db)
+    .then((results: any) => {
+      res.send({ ok: true, rows: results[0] });
+    })
+    .catch(error => {
+      res.send({ ok: false, error: error })
+    })
+    .finally(() => {
+      db.destroy();
+    });
+});
 export default router;
