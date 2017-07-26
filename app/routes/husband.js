@@ -23,7 +23,21 @@ router.get('/raw', (req, res, next) => {
     let db = req.db;
     husbanModel.list(db)
         .then((results) => {
-        res.send({ ok: true, rows: results[0] });
+        res.send({ ok: true, rows: results });
+    })
+        .catch(error => {
+        res.send({ ok: false, error: error });
+    })
+        .finally(() => {
+        db.destroy();
+    });
+});
+router.get('/raw2', (req, res, next) => {
+    console.log("into route");
+    let db = req.db;
+    husbanModel.list(db)
+        .then((results) => {
+        res.send({ ok: true, rows: results });
     })
         .catch(error => {
         res.send({ ok: false, error: error });
