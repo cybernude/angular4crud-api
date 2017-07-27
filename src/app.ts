@@ -15,6 +15,7 @@ import * as cors from 'cors';
 
 import index from './routes/index';
 import husbandRoute from './routes/husband';
+import procedureRoute from './routes/procedure'
 
 const app: express.Express = express();
 
@@ -62,6 +63,7 @@ app.use((req, res, next) => {
 
 app.use('/',index);
 app.use('/husband-api',husbandRoute);
+app.use('/procedure', procedureRoute);
 
 //catch 404 and forward to error handler
 app.use((req,res,next) => {

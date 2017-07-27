@@ -10,6 +10,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const index_1 = require("./routes/index");
 const husband_1 = require("./routes/husband");
+const procedure_1 = require("./routes/procedure");
 const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -47,6 +48,7 @@ app.use((req, res, next) => {
 });
 app.use('/', index_1.default);
 app.use('/husband-api', husband_1.default);
+app.use('/procedure', procedure_1.default);
 app.use((req, res, next) => {
     var err = new Error('Not Found');
     err['status'] = 404;
