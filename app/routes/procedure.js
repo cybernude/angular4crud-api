@@ -10,7 +10,7 @@ router.get('/:startdate/:enddate', (req, res, next) => {
     let enddate = req.params.enddate;
     procedureModel.getProcedure(db, startdate, enddate)
         .then((results) => {
-        res.send({ ok: true, rows: results });
+        res.send({ ok: true, rows: results[0] });
     })
         .catch(error => {
         res.send({ ok: false, error: error });
@@ -25,7 +25,7 @@ router.post('/', (req, res, next) => {
     let enddate = req.body.enddate;
     procedureModel.getProcedure(db, startdate, enddate)
         .then((results) => {
-        res.send({ ok: true, rows: results });
+        res.send({ ok: true, rows: results[0] });
     })
         .catch(error => {
         res.send({ ok: false, error: error });
